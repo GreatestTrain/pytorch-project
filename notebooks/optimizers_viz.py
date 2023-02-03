@@ -11,7 +11,7 @@ from torch.optim import lr_scheduler
 import numpy
 import matplotlib.pyplot as plt
 
-from tqdm import tqdm_notebook as tqdm
+from tqdm.notebook import tqdm
 
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import LogNorm
