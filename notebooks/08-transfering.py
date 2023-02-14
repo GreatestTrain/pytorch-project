@@ -18,12 +18,10 @@ import pathlib
 PYTHON_DIR = pathlib.Path(sys.executable).parent.parent.resolve()
 torch.ops.load_library(str(PYTHON_DIR.joinpath("lib", "libpt_ocl.so")))
 
-# %%
 device = torch.device('privateuseone')
 vgg = models.vgg16(weights=models.VGG16_Weights.DEFAULT)
 vgg = vgg.to(device)
 
-# %%
 for params in vgg.parameters():
     params.requires_grad = False
 
@@ -77,6 +75,7 @@ class RunningMetric():
             return self.S / float(self.N)
         except ZeroDivisionError as e:
             return 0
+
 DIR = pathlib.Path("/home/rml/dev/pytorch/datasets/SIGNS").joinpath("64x64_SIGNS")
 print(DIR)
 train_dataset = SIGNSDataset(DIR, "train_signs", transform=transforms.ToTensor())
@@ -135,7 +134,4 @@ def train_eval(model: nn.Module, optimizer: optim.Optimizer, loss_fn , dataloade
                 print("\r {} Loss: {:4f} - Accuracy {:4f}".format(phase, running_loss(), running_ac()), end="")
             print()
 
-# %%
 train_eval(vgg, optimizer=optimizer, loss_fn=loss_fn, dataloaders=[train_loader, val_loader], epochs=10, lr=1e-3)
-
-
